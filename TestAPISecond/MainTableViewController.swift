@@ -12,15 +12,17 @@ class MainTableViewController: UITableViewController {
     var networkManager = NetworkManager()
     var array = [Datum]()
     
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         networkManager.fetchCurrentData { model in
             self.array = model.data
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
+            
             for item in model.data {
                 print(item.homeTeam)
             }
@@ -48,8 +50,8 @@ class MainTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+    let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailTableViewCell
+        cell.firstTeamLabel.text = array[indexPath.row].homeTeam
         // Configure the cell...
         cell.backgroundColor = .red
 
